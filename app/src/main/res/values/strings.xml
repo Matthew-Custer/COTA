@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">COTA</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="btn_camera">Camera</string>
+    <string name="get_predictions">Get Predictions</string>
+    <string name="take_photo">Take a Photo</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="image_from_camera">Image from camera</string>
+</resources>
