@@ -13,6 +13,3 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/ml/cota_model.tflite
-/app/src/main/ml/COTA.tflite
-/app/src/main/ml/cota_mobilenet.tflite

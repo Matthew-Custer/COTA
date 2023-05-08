@@ -2,16 +2,14 @@ package com.example.cota
 
 //import com.google.android.gms.tflite.client.TfLiteInitializationOptions
 //import org.tensorflow.lite.task.gms.vision.TfLiteVision
+//import com.example.cota.ml.CotaModel
 import android.Manifest
-import android.R.attr.bitmap
-import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
-import android.opengl.ETC1
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -24,7 +22,6 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import com.example.cota.ml.CotaModel
 import com.example.cota.ml.SsdMobilenetV11Metadata1
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.FileUtil
@@ -34,14 +31,9 @@ import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.File
 import java.io.IOException
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import java.nio.MappedByteBuffer
 import java.util.*
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
-import com.example.cota.ml.CotaMobilenet
+//import com.example.cota.ml.CotaMobilenet
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -50,8 +42,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     val paint = Paint()
     lateinit var globalBitmap: Bitmap
     lateinit var model : SsdMobilenetV11Metadata1
-    lateinit var cota_ssd_model : CotaMobilenet
-    lateinit var cota_model : CotaModel
+//    lateinit var cota_ssd_model : CotaMobilenet
+//    lateinit var cota_model : CotaModel
     lateinit var labels: List<String>
     val imageProcessor = ImageProcessor.Builder().add(ResizeOp(300, 300, ResizeOp.ResizeMethod.BILINEAR)).build()
 
@@ -60,7 +52,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //    @SuppressLint("MissingInflatedId")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        labels = FileUtil.loadLabels(requireContext().applicationContext, "cota_labels.txt")
+        labels = FileUtil.loadLabels(requireContext().applicationContext, "labels.txt")
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         Log.d("log", "On create in home fragment")
         val button = view.findViewById<Button>(R.id.button_open_camera)
@@ -184,7 +176,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onDestroy() {
         super.onDestroy()
-        cota_model.close()
+//        cota_model.close()
         model.close()
     }
 
@@ -202,7 +194,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         Log.d("Image width", "img width: " + scaledBmap.width)
         Log.d("Image size", "img size: " + imageSize)
 
-        cota_model = CotaModel.newInstance(requireContext().applicationContext)
+//        cota_model = CotaModel.newInstance(requireContext().applicationContext)
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 1, 1, 3), DataType.UINT8)
         inputFeature0.loadBuffer(tImg.buffer)
 
@@ -228,8 +220,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        Log.d("Cota outputFeature7:", "arr: " + Arrays.toString(outputFeature7))
 
 
-        cota_ssd_model = CotaMobilenet.newInstance(requireContext().applicationContext)
-        val cota_ssd_outputs = cota_ssd_model.process(inputFeature0)
+//        cota_ssd_model = CotaMobilenet.newInstance(requireContext().applicationContext)
+//        val cota_ssd_outputs = cota_ssd_model.process(inputFeature0)
 
         model = SsdMobilenetV11Metadata1.newInstance(requireContext().applicationContext)
         val outputs = model.process(tImg)
@@ -265,7 +257,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             //Skip points until the next top left corner
             x *= 4
-            if(fl > 0.5){
+            if(fl > 0.3){
                 //Set the style to stroke first so that we don't fill the whole shape with color
                 paint.style = Paint.Style.STROKE
                 canvas.drawRect(RectF(locations[x + 1] * w, locations[x] * h, locations[x + 3] * w, locations[x + 2] * h), paint)
